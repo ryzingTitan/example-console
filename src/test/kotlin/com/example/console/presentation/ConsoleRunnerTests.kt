@@ -17,7 +17,7 @@ class ConsoleRunnerTests {
     @Nested
     inner class Run {
         @Test
-        fun `runs report`() {
+        fun `runs the report`() {
             consoleRunner.run()
 
             verify(mockReportingService, times(1)).create()

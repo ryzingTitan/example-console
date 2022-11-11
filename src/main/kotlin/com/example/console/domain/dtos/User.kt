@@ -1,4 +1,4 @@
-package com.example.console.data.user.entities.dtos
+package com.example.console.domain.dtos
 
 import lombok.Generated
 

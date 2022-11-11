@@ -1,7 +1,7 @@
 package com.example.console.domain.services
 
-import com.example.console.data.user.entities.dtos.User
 import com.example.console.data.user.repositories.UserRepository
+import com.example.console.domain.dtos.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate

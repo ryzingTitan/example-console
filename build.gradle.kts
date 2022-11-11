@@ -16,7 +16,7 @@ plugins {
 }
 
 group = "com.example"
-version = "0.0.1-SNAPSHOT"
+version = "1.0.0"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 configurations {
@@ -42,8 +42,12 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
     testImplementation("org.junit.platform:junit-platform-suite-api:1.9.1")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+    testImplementation("io.cucumber:cucumber-java:7.8.1")
+    testImplementation("io.cucumber:cucumber-junit-platform-engine:7.8.1")
+    testImplementation("io.cucumber:cucumber-spring:7.8.1")
     testImplementation("io.projectreactor:reactor-test:3.4.24")
     testImplementation("org.testcontainers:testcontainers:1.17.5")
     testImplementation("org.testcontainers:mssqlserver:1.17.5")
@@ -61,6 +65,22 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.register<Copy>("installGitHooks") {
+    dependsOn("processResources")
+    dependsOn("processTestResources")
+    dependsOn("ktlintMainSourceSetCheck")
+    dependsOn("ktlintTestSourceSetCheck")
+    dependsOn("ktlintKotlinScriptCheck")
+    from(rootProject.rootDir) {
+        include("**/pre-commit")
+    }
+    into(".git/hooks")
+}
+
+tasks.getByName("compileKotlin") {
+    dependsOn("installGitHooks")
 }
 
 ktlint {
