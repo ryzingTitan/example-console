@@ -3,10 +3,10 @@ package com.example.console.domain.services
 import com.example.console.data.user.entities.UserEntity
 import com.example.console.data.user.repositories.UserRepository
 import com.example.console.domain.dtos.User
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -18,6 +18,7 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate
 
+@ExperimentalCoroutinesApi
 class UserServiceTests {
     @BeforeEach
     fun setup() {
