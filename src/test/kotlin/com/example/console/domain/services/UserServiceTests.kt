@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -34,7 +35,7 @@ class UserServiceTests {
 
             val users = userService.findAllUsersByFirstName(mockR2dbcEntityTemplate, userEntity.firstName)
 
-            Assertions.assertEquals(listOf(user), users.toList())
+            assertEquals(listOf(user), users.toList())
 
             verify(mockUserRepository, times(1))
                 .findByFirstName(mockR2dbcEntityTemplate, userEntity.firstName)
@@ -49,7 +50,7 @@ class UserServiceTests {
 
             val username = userService.getUsernameById(mockR2dbcEntityTemplate, userEntity.id)
 
-            Assertions.assertEquals(userEntity.username, username)
+            assertEquals(userEntity.username, username)
 
             verify(mockUserRepository, times(1)).findById(mockR2dbcEntityTemplate, userEntity.id)
         }
@@ -60,7 +61,7 @@ class UserServiceTests {
 
             val username = userService.getUsernameById(mockR2dbcEntityTemplate, userEntity.id)
 
-            Assertions.assertEquals("", username)
+            assertEquals("", username)
 
             verify(mockUserRepository, times(1)).findById(mockR2dbcEntityTemplate, userEntity.id)
         }
