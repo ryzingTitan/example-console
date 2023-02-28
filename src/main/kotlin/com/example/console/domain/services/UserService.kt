@@ -17,7 +17,7 @@ class UserService(private val userRepository: UserRepository) {
                     id = userEntity.id,
                     firstName = userEntity.firstName,
                     lastName = userEntity.lastName,
-                    fullName = "${userEntity.firstName} ${userEntity.lastName}"
+                    fullName = "${userEntity.firstName} ${userEntity.lastName}",
                 )
             }
     }

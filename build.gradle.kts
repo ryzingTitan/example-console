@@ -4,13 +4,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
-    id("org.springframework.boot") version "2.7.5"
+    id("org.springframework.boot") version "3.0.3"
     id("io.spring.dependency-management") version "1.1.0"
-    kotlin("jvm") version "1.7.21"
-    kotlin("plugin.spring") version "1.7.21"
-    id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
-    id("io.gitlab.arturbosch.detekt") version "1.21.0"
-    id("com.github.ben-manes.versions") version "0.44.0"
+    kotlin("jvm") version "1.8.10"
+    kotlin("plugin.spring") version "1.8.10"
+    id("org.jlleitschuh.gradle.ktlint") version "11.2.0"
+    id("io.gitlab.arturbosch.detekt") version "1.22.0"
+    id("com.github.ben-manes.versions") version "0.46.0"
     jacoco
     distribution
 }
@@ -32,7 +32,7 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
-    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:1.2.0")
+    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:1.2.1")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
@@ -43,16 +43,16 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
-    testImplementation("org.junit.platform:junit-platform-suite-api:1.9.1")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
-    testImplementation("io.cucumber:cucumber-java:7.9.0")
-    testImplementation("io.cucumber:cucumber-junit-platform-engine:7.9.0")
-    testImplementation("io.cucumber:cucumber-spring:7.9.0")
-    testImplementation("io.projectreactor:reactor-test:3.5.0")
-    testImplementation("org.testcontainers:testcontainers:1.17.5")
-    testImplementation("org.testcontainers:mssqlserver:1.17.5")
-    testRuntimeOnly("org.postgresql:postgresql:42.5.0")
-    testRuntimeOnly("com.microsoft.sqlserver:mssql-jdbc:11.2.1.jre17")
+    testImplementation("org.junit.platform:junit-platform-suite-api:1.9.2")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+    testImplementation("io.cucumber:cucumber-java:7.11.1")
+    testImplementation("io.cucumber:cucumber-junit-platform-engine:7.11.1")
+    testImplementation("io.cucumber:cucumber-spring:7.11.1")
+    testImplementation("io.projectreactor:reactor-test:3.5.3")
+    testImplementation("org.testcontainers:testcontainers:1.17.6")
+    testImplementation("org.testcontainers:mssqlserver:1.17.6")
+    testRuntimeOnly("org.postgresql:postgresql:42.5.4")
+    testRuntimeOnly("com.microsoft.sqlserver:mssql-jdbc:11.2.3.jre17")
 }
 
 tasks.withType<KotlinCompile> {
@@ -67,24 +67,21 @@ tasks.withType<Test> {
     finalizedBy(tasks.jacocoTestReport)
 }
 
-tasks.register<Copy>("installGitHooks") {
+tasks.getByName("addKtlintFormatGitPreCommitHook") {
     dependsOn("processResources")
     dependsOn("processTestResources")
     dependsOn("ktlintMainSourceSetCheck")
     dependsOn("ktlintTestSourceSetCheck")
     dependsOn("ktlintKotlinScriptCheck")
-    from(rootProject.rootDir) {
-        include("**/pre-commit")
-    }
-    into(".git/hooks")
+    dependsOn("detekt")
 }
 
 tasks.getByName("compileKotlin") {
-    dependsOn("installGitHooks")
+    dependsOn("addKtlintFormatGitPreCommitHook")
 }
 
 ktlint {
-    version.set("0.45.2")
+    version.set("0.48.2")
     verbose.set(true)
     outputToConsole.set(true)
     coloredOutput.set(true)
@@ -96,7 +93,7 @@ ktlint {
 detekt {
     source = objects.fileCollection().from(
         io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_SRC_DIR_KOTLIN,
-        io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_TEST_SRC_DIR_KOTLIN
+        io.gitlab.arturbosch.detekt.extensions.DetektExtension.DEFAULT_TEST_SRC_DIR_KOTLIN,
     )
     buildUponDefaultConfig = true
 }

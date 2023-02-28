@@ -29,7 +29,7 @@ class ReportingServiceTests {
         reportingService = ReportingService(
             mockUserService,
             mockR2dbcEntityTemplateBuilder,
-            mockInputFileRepository
+            mockInputFileRepository,
         )
 
         logger = LoggerFactory.getLogger(ReportingService::class.java) as Logger
@@ -49,7 +49,8 @@ class ReportingServiceTests {
             assertEquals(1, appender.list.size)
             assertEquals(Level.INFO, appender.list[0].level)
             assertEquals(
-                "Usernames found: [$FIRST_USERNAME, $SECOND_USERNAME, $THIRD_USERNAME]", appender.list[0].message
+                "Usernames found: [$FIRST_USERNAME, $SECOND_USERNAME, $THIRD_USERNAME]",
+                appender.list[0].message,
             )
 
             verify(mockInputFileRepository, times(1)).getFile()
@@ -65,10 +66,10 @@ class ReportingServiceTests {
             whenever(mockInputFileRepository.getFile()).thenReturn(testFile)
             whenever(mockR2dbcEntityTemplateBuilder.build()).thenReturn(mockR2dbcEntityTemplate)
             whenever(mockUserService.findAllUsersByFirstName(mockR2dbcEntityTemplate, firstUser.firstName)).thenReturn(
-                flowOf(firstUser)
+                flowOf(firstUser),
             )
             whenever(mockUserService.findAllUsersByFirstName(mockR2dbcEntityTemplate, secondUser.firstName)).thenReturn(
-                flowOf(secondUser, thirdUser)
+                flowOf(secondUser, thirdUser),
             )
             whenever(mockUserService.getUsernameById(mockR2dbcEntityTemplate, firstUser.id)).thenReturn(FIRST_USERNAME)
             whenever(mockUserService.getUsernameById(mockR2dbcEntityTemplate, secondUser.id))
@@ -91,21 +92,21 @@ class ReportingServiceTests {
         id = 1,
         firstName = "distracted",
         lastName = "wright",
-        fullName = "distracted wright"
+        fullName = "distracted wright",
     )
 
     private val secondUser = User(
         id = 2,
         firstName = "focused",
         lastName = "euclid",
-        fullName = "focused euclid"
+        fullName = "focused euclid",
     )
 
     private val thirdUser = User(
         id = 3,
         firstName = "focused",
         lastName = "austin",
-        fullName = "focused austin"
+        fullName = "focused austin",
     )
 
     companion object ReportingServiceTestConstants {

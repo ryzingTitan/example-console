@@ -19,7 +19,7 @@ class ConnectionFactoryBuilder : IConnectionFactoryBuilder {
                 .option(ConnectionFactoryOptions.HOST, "localhost")
                 .option(ConnectionFactoryOptions.PORT, portNumber)
                 .option(ConnectionFactoryOptions.DATABASE, "test")
-                .build()
+                .build(),
         )
     }
 

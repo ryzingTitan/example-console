@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 class ReportingService(
     private val userService: UserService,
     private val r2dbcEntityTemplateBuilder: R2dbcEntityTemplateBuilder,
-    private val inputFileRepository: IInputFileRepository
+    private val inputFileRepository: IInputFileRepository,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(ReportingService::class.java)
 
