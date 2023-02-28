@@ -14,7 +14,7 @@ class PostgresDatabaseStepDefs {
             GenericContainer<Nothing>(
                 ImageFromDockerfile()
                     .withFileFromClasspath("db.sql", "integration/postgres/db.sql")
-                    .withFileFromClasspath("Dockerfile", "integration/postgres/Dockerfile")
+                    .withFileFromClasspath("Dockerfile", "integration/postgres/Dockerfile"),
             )
         postgresContainer.exposedPorts = listOf(5432)
         postgresContainer.start()

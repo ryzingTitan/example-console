@@ -19,7 +19,7 @@ class ConnectionFactoryBuilder(private val databaseProperties: DatabasePropertie
                 .option(ConnectionFactoryOptions.HOST, databaseProperties.server)
                 .option(ConnectionFactoryOptions.PORT, databaseProperties.port)
                 .option(ConnectionFactoryOptions.DATABASE, databaseProperties.name)
-                .build()
+                .build(),
         )
     }
 }

@@ -8,6 +8,6 @@ import org.springframework.test.context.ActiveProfiles
 @CucumberContextConfiguration
 @ActiveProfiles("cucumber-test")
 @SpringBootTest(
-    classes = [ExampleConsoleApplication::class]
+    classes = [ExampleConsoleApplication::class],
 )
 class CucumberContextConfiguration
